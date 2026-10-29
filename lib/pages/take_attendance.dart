@@ -131,24 +131,13 @@ class _TakeAttendanceState extends State<TakeAttendance> {
                   const SizedBox(height: 30),
 
                   // Buttons row
+                  // Submit button
                   if (_loading)
                     const CircularProgressIndicator()
                   else
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: retakePhoto,
-                          child: const Text('Retake'),
-                        ),
-
-                        const SizedBox(width: 20),
-
-                        ElevatedButton(
-                          onPressed: submitPhoto,
-                          child: const Text('Submit'),
-                        ),
-                      ],
+                    ElevatedButton(
+                      onPressed: submitPhoto,
+                      child: const Text('Submit'),
                     ),
                 ],
               ),

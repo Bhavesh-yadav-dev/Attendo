@@ -1,23 +1,16 @@
 import 'dart:convert';
 
 import 'package:attendo/config/api_config.dart';
+import 'package:attendo/pages/add_connection.dart';
 import 'package:attendo/pages/registar_student.dart';
 import 'package:attendo/pages/take_attendance.dart';
 import 'package:attendo/pages/view_attendance.dart';
+import 'package:attendo/widgets/action_card.dart';
+import 'package:attendo/widgets/app_color.dart';
+import 'package:attendo/widgets/statchip.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-// ── Colour palette ──────────────────────────────────────────
-const _bg = Color(0xFF0D0D1A); // deep navy-black
-const _surface = Color(0xFF161628); // card surface
-const _accent = Color(0xFF7C3AED); // vivid violet
-const _accentLight = Color(0xFF9F67FF); // lighter violet
-const _accentGlow = Color(0x337C3AED); // violet glow (20 %)
-const _green = Color(0xFF10B981); // present – emerald
-const _red = Color(0xFFEF4444); // absent – red
-const _textPrimary = Color(0xFFF1F0FF);
-const _textSecondary = Color(0xFF8B8BA0);
-// ────────────────────────────────────────────────────────────
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -74,11 +67,11 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _bg,
+      backgroundColor: AppColor.bg,
 
       // ── AppBar ──────────────────────────────────────────
       appBar: AppBar(
-        backgroundColor: _bg,
+        backgroundColor: AppColor.bg,
         elevation: 0,
         titleSpacing: 20,
         title: Row(
@@ -88,7 +81,7 @@ class _DashboardState extends State<Dashboard> {
               height: 34,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [_accent, _accentLight],
+                  colors: [AppColor.accent, AppColor.accentLight],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -104,7 +97,7 @@ class _DashboardState extends State<Dashboard> {
             const Text(
               "Attendo",
               style: TextStyle(
-                color: _textPrimary,
+                color: AppColor.textPrimary,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
                 letterSpacing: 0.5,
@@ -116,16 +109,16 @@ class _DashboardState extends State<Dashboard> {
           // Refresh button
           IconButton(
             onPressed: fetchTodayStats,
-            icon: const Icon(Icons.refresh_rounded, color: _accentLight),
+            icon: const Icon(Icons.refresh_rounded, color: AppColor.accentLight),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: CircleAvatar(
               radius: 18,
-              backgroundColor: _surface,
+              backgroundColor: AppColor.surface,
               child: const Icon(
                 Icons.person_rounded,
-                color: _accentLight,
+                color: AppColor.accentLight,
                 size: 20,
               ),
             ),
@@ -146,14 +139,14 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
-                  color: _textPrimary,
+                  color: AppColor.textPrimary,
                   letterSpacing: 0.3,
                 ),
               ),
               const SizedBox(height: 5),
               const Text(
                 "Manage your classroom attendance",
-                style: TextStyle(fontSize: 14, color: _textSecondary),
+                style: TextStyle(fontSize: 14, color: AppColor.textSecondary),
               ),
 
               const SizedBox(height: 28),
@@ -164,14 +157,14 @@ class _DashboardState extends State<Dashboard> {
                 padding: const EdgeInsets.all(22),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF4C1D95), _accent],
+                    colors: [Color(0xFF4C1D95), AppColor.accent],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(22),
                   boxShadow: const [
                     BoxShadow(
-                      color: _accentGlow,
+                      color: AppColor.accentGlow,
                       blurRadius: 24,
                       offset: Offset(0, 8),
                     ),
@@ -220,19 +213,19 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ]
                           : [
-                              _StatChip(
+                              StatChip(
                                 label: "Present",
                                 value: "$presentCount",
-                                color: _green,
+                                color: AppColor.green,
                               ),
                               const SizedBox(width: 12),
-                              _StatChip(
+                              StatChip(
                                 label: "Absent",
                                 value: "$absentCount",
-                                color: _red,
+                                color: AppColor.red,
                               ),
                               const SizedBox(width: 12),
-                              _StatChip(
+                              StatChip(
                                 label: "Total",
                                 value: "$totalCount",
                                 color: Colors.white,
@@ -251,7 +244,7 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
-                  color: _textPrimary,
+                  color: AppColor.textPrimary,
                   letterSpacing: 0.3,
                 ),
               ),
@@ -259,7 +252,7 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(height: 16),
 
               // ── Action cards ───────────────────────────
-              _ActionCard(
+              ActionCard(
                 icon: Icons.camera_alt_rounded,
                 title: "Take Attendance",
                 subtitle: "Mark today's student attendance",
@@ -272,7 +265,7 @@ class _DashboardState extends State<Dashboard> {
 
               const SizedBox(height: 14),
 
-              _ActionCard(
+              ActionCard(
                 icon: Icons.person_add_rounded,
                 title: "Register Student",
                 subtitle: "Add a new student to your class",
@@ -285,7 +278,7 @@ class _DashboardState extends State<Dashboard> {
 
               const SizedBox(height: 14),
 
-              _ActionCard(
+              ActionCard(
                 icon: Icons.bar_chart_rounded,
                 title: "View Attendance",
                 subtitle: "Check attendance records and history",
@@ -295,157 +288,17 @@ class _DashboardState extends State<Dashboard> {
                   MaterialPageRoute(builder: (_) => const ViewAttendance()),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-// ── Stat chip inside the summary card ───────────────────────
-class _StatChip extends StatelessWidget {
-  final String label;
-  final String value;
-  final Color color;
+              const SizedBox(height: 14),
 
-  const _StatChip({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          // ignore: deprecated_member_use
-          color: Colors.white.withOpacity(0.08),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Column(
-          children: [
-            Text(
-              value,
-              style: TextStyle(
-                color: color,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                // ignore: deprecated_member_use
-                color: Colors.white.withOpacity(0.6),
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ── Action card ──────────────────────────────────────────────
-class _ActionCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color iconBg;
-  final VoidCallback onTap;
-
-  const _ActionCard({
-    required this.icon,
-    required this.title,
-    
-    required this.subtitle,
-    required this.iconBg,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: _surface,
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
-        splashColor: _accentGlow,
-        highlightColor: _accentGlow,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              // ignore: deprecated_member_use
-              color: _accent.withOpacity(0.18),
-              width: 1,
-            ),
-          ),
-          child: Row(
-            children: [
-              // Icon container
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: iconBg,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    // ignore: deprecated_member_use
-                    color: _accent.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
-                child: Icon(icon, color: _accentLight, size: 26),
-              ),
-
-              const SizedBox(width: 16),
-
-              // Text
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: _textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: _textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Arrow
-              Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  // ignore: deprecated_member_use
-                  color: _accent.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: _accentLight,
+              ActionCard(
+                icon: Icons.settings,
+                title: "Add Connection",
+                subtitle: "Establish a connection to the backend server",
+                iconBg: const Color(0xFF3B0A1F),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AddConnection()),
                 ),
               ),
             ],
@@ -455,3 +308,8 @@ class _ActionCard extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
