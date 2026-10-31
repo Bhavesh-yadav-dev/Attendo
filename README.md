@@ -258,3 +258,7 @@ Returns attendance records for a specific date.
 - Never commit `.env` files. Both `server/.env` and `ai-service/.env` are listed in `.gitignore`.
 - There is currently no authentication on the API endpoints. Add token-based auth before any school-wide deployment.
 - Face embeddings are biometric data. Ensure appropriate consent is obtained before registering students.
+
+## Developer 
+
+**Bhavesh Yadav**
